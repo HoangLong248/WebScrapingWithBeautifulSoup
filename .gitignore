@@ -1,0 +1,4 @@
+venv
+.vscode-upload.json
+*.html
+config.json
