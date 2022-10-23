@@ -25,7 +25,7 @@ def scraping_data_from_web():
 
         soup = BeautifulSoup(content, 'lxml')
         div_gole_price_page = soup.find_all('div', id="gold-price-page")
-
+        # print(div_gole_price_page)
         for div_gold_price in div_gole_price_page:
             clean_data = []
             for data in div_gold_price.table.tbody.text.split("\n\n"):
@@ -33,9 +33,12 @@ def scraping_data_from_web():
                     clean_data.append(data.replace('\n', ';'))
     return clean_data
 
-@bot.message_handler(commands=['start', 'help'])
+   
+@bot.message_handler(commands=['gold_vn', 'gold_usa'])
 def send_welcome(message):
-	bot.reply_to(message, "{}".format(scraping_data_from_web()))
+    price_gold = scraping_data_from_web()
+    data = '\n'.join(i.lstrip(";") for i in price_gold)
+    bot.reply_to(message, "{}".format(data))
 
 if __name__ == "__main__":
     bot.infinity_polling()
